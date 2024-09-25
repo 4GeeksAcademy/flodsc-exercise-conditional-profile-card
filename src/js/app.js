@@ -29,21 +29,48 @@ function render(variables = {}) {
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
-  // reset the website body with the new html output
-  document.querySelector("#widget_content").innerHTML = `<div class="widget">
-            ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
-    `;
+  // Lógica para mostrar el nombre, apellido y otros campos. Si la variable es nula mostrar un valor por defecto
+  let fullName = `${variables.name || "Your name"} ${variables.lastName ||
+    "Your lastname"}`;
+  let location = `${variables.city || "City"}, ${variables.country ||
+    "Country"}`;
+  let role = `${variables.role || "Web Developer"}`;
+
+  // Posición de los iconos de redes sociales
+  let socialMediaClass =
+    variables.socialMediaPosition === "left"
+      ? "position-left"
+      : "position-right";
+
+  // Enlaces de redes sociales, usando el valor de las variables
+  let twitter = variables.twitter
+    ? `<li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`
+    : "";
+  let github = variables.github
+    ? `<li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>`
+    : "";
+  let linkedin = variables.linkedin
+    ? `<li><a href="https://linkedin.com/in/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`
+    : "";
+  let instagram = variables.instagram
+    ? `<li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`
+    : "";
+
+  document.querySelector("#widget_content").innerHTML = `
+         <div class="widget">
+             ${cover}
+             <img src="${variables.avatarURL}" class="photo" />
+             <h1>${fullName}</h1>
+             <h2>${role}</h2>
+             <h3>${location}</h3>
+             <ul class="${socialMediaClass}">
+               ${twitter}
+               ${github}
+               ${linkedin}
+               ${instagram}
+             </ul>
+         </div>
+     `;
 }
 
 /**
